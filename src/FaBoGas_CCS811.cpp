@@ -182,6 +182,27 @@ uint16_t FaBoGas::getTVOC()
 }
 
 /**
+ * @brief Set environment data for compensation
+ * @param [in] temperature in °C
+ * @param [in] rel. humidity in %
+ */
+void FaBoGas::setEnvData(float temperature, float humidity) {
+	uint8_t setData[4];
+
+  // convert values as descriped in datasheet
+  uint16_t hum = (uint16_t)(humidity * 512.0f);
+  uint16_t temp = (uint16_t)((temperature + 25.0f) * 512.0f);
+  
+	setData[0] = (hum >> 8) & 0xFF;
+	setData[1] = hum & 0xFF;
+  setData[2] = (temp >> 8) & 0xFF;
+	setData[3] = temp & 0xFF;
+
+	writeBytesI2c(CCS811_ENV_DATA_REG, 4, setData);
+}
+
+
+/**
  @brief Write I2C
  @param [in] address register address
  @param [in] data write data
@@ -226,3 +247,4 @@ void FaBoGas::readI2c(uint8_t address, uint8_t num, uint8_t * data) {
     data[i++] = Wire.read();
   }
 }
+

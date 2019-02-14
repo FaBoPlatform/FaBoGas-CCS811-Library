@@ -23,7 +23,7 @@
 #define	CCS811_ALG_RESULT_DATA_REG  0x02
 #define	CCS811_RAW_DATA_REG         0x03
 #define	CCS811_ENV_DATA_REG     		0x05
-#define	CCS811_NTC_REG        			0x06
+//#define	CCS811_NTC_REG        			0x06
 #define	CCS811_THRESHOLDS_REG 			0x10
 #define	CCS811_BASELINE_REG		     	0x11
 #define	CCS811_HW_ID_REG            0x20
@@ -75,6 +75,7 @@ class FaBoGas {
     void setBaseline(uint16_t baseline);
     uint16_t getCO2(void);
     uint16_t getTVOC(void);
+    void setEnvData(float temp, float humidity);
   private:
     uint8_t _i2caddr;
     int co2_value;
